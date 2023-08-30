@@ -2,7 +2,9 @@ package com.king.service;
 
 import com.king.Utils.Mapper;
 import com.king.dtos.BookDTO;
+import com.king.dtos.request.BookRequest;
 import com.king.entity.Book;
+import com.king.exception.NotFoundException;
 import com.king.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,19 +23,47 @@ public class BookService {
         List<Book> books = bookRepository.findAll();
 
         return books.stream()
-                .map(Mapper::mapToDTO)
+                .map(Mapper::mapBookToBookDto)
                 .collect(Collectors.toList());
     }
 
-    public Book getBoookById (Long id) {
-         Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Buku dengan id :" + id + " tidak ditemukan"));
+    public BookDTO getBookById(Long id) {
+        Book findBook = findBookById(id);
 
-
-        return book;
+        return BookDTO.builder()
+                .id(findBook.getId())
+                .title(findBook.getTitle())
+                .author(Mapper.mapAuthorToAuthorDTO(findBook.getAuthor()))
+                .build();
     }
+
 
     public Book save(Book book) {
         return bookRepository.save(book);
+    }
+
+    public BookDTO updateBookById(Long id, BookRequest request) {
+        Book findBook = findBookById(id);
+
+        findBook.setTitle(request.getTitle());
+        bookRepository.save(findBook);
+
+        return BookDTO.builder()
+                .id(findBook.getId())
+                .title(request.getTitle())
+                .author(Mapper.mapAuthorToAuthorDTO(findBook.getAuthor()))
+                .build();
+    }
+
+    public String deleteBookById(Long id) {
+        Book findBook = findBookById(id);
+        bookRepository.deleteById(id);
+
+        return "Successfully delete book with id : " + id;
+    }
+
+    public Book findBookById(Long id) {
+        return bookRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Book with id :" + id + " not found"));
     }
 }

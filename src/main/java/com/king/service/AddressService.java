@@ -1,6 +1,7 @@
 package com.king.service;
 
 import com.king.entity.Address;
+import com.king.exception.NotFoundException;
 import com.king.repository.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class AddressService {
 
     public Address getAddressById(Long id) {
         return addressRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Alamat dengan id : " + id + " tidak ditemukan"));
+                .orElseThrow(() -> new NotFoundException("Address with id : " + id + " not found"));
     }
 
     public List<Address> getAllAddresses() {
@@ -45,8 +46,10 @@ public class AddressService {
         return addressRepository.save(updateAddress);
     }
 
-    public void deleteAddress(Long id) {
+    public String deleteAddress(Long id) {
         Address findAddress = getAddressById(id);
         addressRepository.deleteById(id);
+
+        return "Succefully delete address with id : " + id;
     }
 }

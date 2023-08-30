@@ -1,8 +1,7 @@
 package com.king.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -10,6 +9,9 @@ import javax.persistence.*;
 @Table(name = "library_book")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Book {
 
     @Id
@@ -22,6 +24,4 @@ public class Book {
     @JoinColumn(name = "author_id")
     @JsonBackReference
     private Author author;
-
-    // Constructors, getters, setters, and other methods
 }

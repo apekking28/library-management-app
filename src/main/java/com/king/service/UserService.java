@@ -2,6 +2,7 @@ package com.king.service;
 
 import com.king.entity.Address;
 import com.king.entity.User;
+import com.king.exception.NotFoundException;
 import com.king.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class UserService {
 
     public User getUserById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User dengan id : " + id + " tidak ditemukan"));
+                .orElseThrow(() -> new NotFoundException("User with id : " + id + " not found"));
     }
 
     public List<User> getAllUsers() {
@@ -48,8 +49,10 @@ public class UserService {
         return userRepository.save(saveUser);
     }
 
-    public void deleteUser(Long id) {
+    public String deleteUser(Long id) {
         User findUser = getUserById(id);
         userRepository.deleteById(id);
+
+        return "Successfully delete user with id : " + id;
     }
 }

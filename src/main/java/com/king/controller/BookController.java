@@ -1,6 +1,7 @@
 package com.king.controller;
 
 import com.king.dtos.BookDTO;
+import com.king.dtos.request.BookRequest;
 import com.king.entity.Book;
 import com.king.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,8 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public Book getBookById (@PathVariable Long id) {
-        return bookService.getBoookById(id);
+    public BookDTO getBookById (@PathVariable Long id) {
+        return bookService.getBookById(id);
     }
 
     @PostMapping
@@ -30,5 +31,14 @@ public class BookController {
         return bookService.save(book);
     }
 
+    @PutMapping("/{id}")
+    public BookDTO updateBook(@PathVariable Long id, @RequestBody BookRequest request) {
+        return bookService.updateBookById(id,request);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteBook(@PathVariable Long id) {
+        return bookService.deleteBookById(id);
+    }
 
 }

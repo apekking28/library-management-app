@@ -34,7 +34,7 @@ public class AddressController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAddress(@PathVariable Long id) {
-        addressService.deleteAddress(id);
+    public String deleteAddress(@PathVariable Long id) {
+       return addressService.deleteAddress(id);
     }
 }

@@ -23,7 +23,6 @@ public class Author {
 
     private String name;
 
-//    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "address_id")
     private Address address;

@@ -1,19 +1,16 @@
 package com.king.dtos;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class AuthorDTO {
 
     private Long id;
     private String name;
-    private List<BookDTO> books;
 
-    // Constructors, getters, setters
 }
