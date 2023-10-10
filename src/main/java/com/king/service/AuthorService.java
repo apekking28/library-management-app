@@ -24,8 +24,7 @@ public class AuthorService {
                 .name(author.getName())
                 .address(address)
                 .build();
-
-
+        
         return authorRepository.save(saveAuthor);
     }
 
@@ -33,14 +32,6 @@ public class AuthorService {
         return authorRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Author with id : " + id + " not found"));
     }
-
-//    public List<Author> getAllAuthors() {
-//        List<Author> authors = authorRepository.findAll();
-//        authors.forEach(author -> {
-//            author.getBooks().size(); // Ini akan memuat buku-buku terkait
-//        });
-//        return authors;
-//    }
 
     public Author updateAuthor(Long id, Author author) {
         Author findAuthor = getAuthorById(id);
